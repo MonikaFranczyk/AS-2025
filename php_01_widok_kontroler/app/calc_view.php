@@ -8,8 +8,9 @@
 <body>
 
 <form action="<?php print(_APP_URL);?>/app/calc.php" method="post">
+	<h2>Kalkulator</h2>
 	<label for="id_x">Liczba 1: </label>
-	<input id="id_x" type="text" name="x" value="<?php print($x); ?>" /><br />
+	<input id="id_x" type="text" name="x" value="<?php if (isset($x)) print($x); ?>" /><br />
 	<label for="id_op">Operacja: </label>
 	<select name="op">
 		<option value="plus">+</option>
@@ -18,7 +19,7 @@
 		<option value="div">/</option>
 	</select><br />
 	<label for="id_y">Liczba 2: </label>
-	<input id="id_y" type="text" name="y" value="<?php print($y); ?>" /><br />
+	<input id="id_y" type="text" name="y" value="<?php if (isset($y)) print($y); ?>" /><br />
 	<input type="submit" value="Oblicz" />
 </form>	
 
@@ -40,6 +41,8 @@ if (isset($messages)) {
 <?php echo 'Wynik: '.$result; ?>
 </div>
 <?php } ?>
+
+<p><a href="<?php print(_APP_URL); ?>/app/kredyt_view.php">Przejdź do kalkulatora kredytowego</a></p>
 
 </body>
 </html>

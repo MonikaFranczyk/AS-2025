@@ -31,5 +31,8 @@
         echo '</div>';
     }
     ?>
+
+	<p><a href="<?php print(_APP_URL); ?>/app/calc_view.php">Przejdź do zwykłego kalkulatora </a></p>
+
 </body>
 </html>

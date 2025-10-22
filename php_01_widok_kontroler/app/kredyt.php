@@ -8,66 +8,49 @@ require_once dirname(__FILE__).'/../config.php';
 
 // 1. pobranie parametrów
 
-$x = $_REQUEST ['x'];
-$y = $_REQUEST ['y'];
-$operation = $_REQUEST ['op'];
+$kwota = $_REQUEST['kwota'] ?? null;
+$lata = $_REQUEST['lata'] ?? null;
+$oprocentowanie = $_REQUEST['oprocentowanie'] ?? null;
+$messages = [];
 
 // 2. walidacja parametrów z przygotowaniem zmiennych dla widoku
 
-// sprawdzenie, czy parametry zostały przekazane
-if ( ! (isset($x) && isset($y) && isset($operation))) {
-	//sytuacja wystąpi kiedy np. kontroler zostanie wywołany bezpośrednio - nie z formularza
-	$messages [] = 'Błędne wywołanie aplikacji. Brak jednego z parametrów.';
+if (!isset($kwota, $lata, $oprocentowanie)) {
+    $messages[] = 'Błędne wywołanie aplikacji. Brak parametrów.';
+} else {
+    if ($kwota === '') $messages[] = 'Nie podano kwoty kredytu';
+    if ($lata === '') $messages[] = 'Nie podano liczby lat';
+    if ($oprocentowanie === '') $messages[] = 'Nie podano oprocentowania';
 }
 
-// sprawdzenie, czy potrzebne wartości zostały przekazane
-if ( $x == "") {
-	$messages [] = 'Nie podano liczby 1';
-}
-if ( $y == "") {
-	$messages [] = 'Nie podano liczby 2';
-}
-
-//nie ma sensu walidować dalej gdy brak parametrów
-if (empty( $messages )) {
-	
-	// sprawdzenie, czy $x i $y są liczbami całkowitymi
-	if (! is_numeric( $x )) {
-		$messages [] = 'Pierwsza wartość nie jest liczbą całkowitą';
-	}
-	
-	if (! is_numeric( $y )) {
-		$messages [] = 'Druga wartość nie jest liczbą całkowitą';
-	}	
-
+if (empty($messages)) {
+    if (!is_numeric($kwota) || $kwota <= 0)
+        $messages[] = 'Kwota musi być dodatnią liczbą';
+    if (!is_numeric($lata) || $lata <= 0)
+        $messages[] = 'Liczba lat musi być dodatnią liczbą';
+    if (!is_numeric($oprocentowanie))
+        $messages[] = 'Oprocentowanie musi być liczbą';
+    else if ($oprocentowanie < 0 || $oprocentowanie > 50)
+        $messages[] = 'Oprocentowanie musi być w przedziale 0–50%';
 }
 
 // 3. wykonaj zadanie jeśli wszystko w porządku
 
-if (empty ( $messages )) { // gdy brak błędów
-	
-	//konwersja parametrów na int
-	$x = intval($x);
-	$y = intval($y);
-	
-	//wykonanie operacji
-	switch ($operation) {
-		case 'minus' :
-			$result = $x - $y;
-			break;
-		case 'times' :
-			$result = $x * $y;
-			break;
-		case 'div' :
-			$result = $x / $y;
-			break;
-		default :
-			$result = $x + $y;
-			break;
-	}
+if (empty($messages)) {
+    $P = floatval($kwota);
+    $years = floatval($lata);
+    $r = floatval($oprocentowanie) / 100 / 12;
+    $n = $years * 12;
+
+    if ($r > 0) {
+        $rata = $P * ($r * pow(1 + $r, $n)) / (pow(1 + $r, $n) - 1);
+    } else {
+        $rata = $P / $n;
+    }
 }
 
 // 4. Wywołanie widoku z przekazaniem zmiennych
 // - zainicjowane zmienne ($messages,$x,$y,$operation,$result)
 //   będą dostępne w dołączonym skrypcie
-include 'calc_view.php';
+include 'kredyt_view.php';
+?>
