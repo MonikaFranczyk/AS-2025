@@ -1,39 +1,46 @@
+<?php require_once dirname(__FILE__).'/../../config.php'; ?>
 <!DOCTYPE HTML>
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="pl" lang="pl">
+<html lang="pl">
 <head>
-	<meta charset="utf-8" />
-	<title>Logowanie</title>
-	<link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/pure-min.css">
+    <meta charset="utf-8" />
+    <title>Logowanie</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body>
+<body class="bg-light">
 
-<div style="width:90%; margin: 2em auto;">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">Kalkulator</a>
+  </div>
+</nav>
 
-<form action="<?php print(_APP_ROOT); ?>/app/security/login.php" method="post" class="pure-form pure-form-stacked">
-	<legend>Logowanie</legend>
-	<fieldset>
-		<label for="id_login">login: </label>
-		<input id="id_login" type="text" name="login" value="<?php out($form['login']); ?>" />
-		<label for="id_pass">pass: </label>
-		<input id="id_pass" type="password" name="pass" />
-	</fieldset>
-	<input type="submit" value="zaloguj" class="pure-button pure-button-primary"/>
-</form>	
+<div class="container mt-5">
+  <div class="card shadow-sm mx-auto" style="max-width: 400px;">
+    <div class="card-body">
+      <h4 class="card-title text-center mb-4">Logowanie</h4>
 
-<?php
-//wyświeltenie listy błędów, jeśli istnieją
-if (isset($messages)) {
-	if (count ( $messages ) > 0) {
-		echo '<ol style="padding: 10px 10px 10px 30px; border-radius: 5px; background-color: #f88; width:300px;">';
-		foreach ( $messages as $key => $msg ) {
-			echo '<li>'.$msg.'</li>';
-		}
-		echo '</ol>';
-	}
-}
-?>
+      <form action="<?php print(_APP_ROOT); ?>/app/security/login.php" method="post">
+        <div class="mb-3">
+          <label for="login" class="form-label">Login:</label>
+          <input type="text" class="form-control" name="login" id="login" required>
+        </div>
+        <div class="mb-3">
+          <label for="pass" class="form-label">Hasło:</label>
+          <input type="password" class="form-control" name="pass" id="pass" required>
+        </div>
+        <button type="submit" class="btn btn-primary w-100">Zaloguj</button>
+      </form>
 
+      <?php
+      if (isset($messages) && count($messages) > 0) {
+          echo '<div class="alert alert-danger mt-3"><ul>';
+          foreach ($messages as $msg) echo "<li>$msg</li>";
+          echo '</ul></div>';
+      }
+      ?>
+    </div>
+  </div>
 </div>
-
 </body>
 </html>
+

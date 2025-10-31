@@ -1,60 +1,61 @@
-<?php
-//Tu już nie ładujemy konfiguracji - sam widok nie będzie już punktem wejścia do aplikacji.
-//Wszystkie żądania idą do kontrolera, a kontroler wywołuje skrypt widoku.
-?>
+<?php require_once dirname(__FILE__).'/../config.php'; ?>
 <!DOCTYPE HTML>
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="pl" lang="pl">
+<html lang="pl">
 <head>
-	<meta charset="utf-8" />
-	<title>Kalkulator</title>
-	<link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/pure-min.css">
+  <meta charset="utf-8">
+  <title>Kalkulator</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
 
-<div style="width:90%; margin: 2em auto;">
-	<a href="<?php print(_APP_ROOT); ?>/app/inna_chroniona.php" class="pure-button">kolejna chroniona strona</a>
-	<a href="<?php print(_APP_ROOT); ?>/app/security/logout.php" class="pure-button pure-button-active">Wyloguj</a>
-</div>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">Kalkulator</a>
+    <ul class="navbar-nav ms-auto">
+      <li class="nav-item"><a class="nav-link" href="<?php print(_APP_URL); ?>/app/menu.php">Menu główne</a></li>
+      <li class="nav-item"><a class="nav-link" href="<?php print(_APP_URL); ?>/app/security/logout.php">Wyloguj</a></li>
+    </ul>
+  </div>
+</nav>
 
-<div style="width:90%; margin: 2em auto;">
+<div class="container mt-4">
+  <div class="card mx-auto" style="max-width: 400px;">
+    <div class="card-body">
+      <h4 class="card-title mb-4">Kalkulator</h4>
+      <form action="<?php print(_APP_URL);?>/app/calc.php" method="post">
+        <div class="mb-3">
+          <label>Liczba 1:</label>
+          <input type="text" class="form-control" name="x" value="<?php if (isset($x)) print($x); ?>">
+        </div>
+        <div class="mb-3">
+          <label>Operacja:</label>
+          <select name="op" class="form-select">
+            <option value="plus">+</option>
+            <option value="minus">-</option>
+            <option value="times">*</option>
+            <option value="div">/</option>
+          </select>
+        </div>
+        <div class="mb-3">
+          <label>Liczba 2:</label>
+          <input type="text" class="form-control" name="y" value="<?php if (isset($y)) print($y); ?>">
+        </div>
+        <button type="submit" class="btn btn-primary w-100">Oblicz</button>
+      </form>
 
-<form action="<?php print(_APP_ROOT); ?>/app/calc.php" method="post" class="pure-form pure-form-stacked">
-	<legend>Kalkulator</legend>
-	<fieldset>
-		<label for="id_x">Liczba 1: </label>
-		<input id="id_x" type="text" name="x" value="<?php out($x) ?>" />
-		<label for="id_op">Operacja: </label>
-		<select name="op">	
-			<option value="plus">+</option>
-			<option value="minus">-</option>
-			<option value="times">*</option>
-			<option value="div">/</option>
-		</select>
-		<label for="id_y">Liczba 2: </label>
-		<input id="id_y" type="text" name="y" value="<?php out($y) ?>" />
-	</fieldset>	
-	<input type="submit" value="Oblicz" class="pure-button pure-button-primary" />
-</form>	
+      <?php
+      if (isset($messages) && count($messages) > 0) {
+          echo '<div class="alert alert-danger mt-3"><ul>';
+          foreach ($messages as $msg) echo "<li>$msg</li>";
+          echo '</ul></div>';
+      }
 
-<?php
-//wyświeltenie listy błędów, jeśli istnieją
-if (isset($messages)) {
-	if (count ( $messages ) > 0) {
-		echo '<ol style="margin-top: 1em; padding: 1em 1em 1em 2em; border-radius: 0.5em; background-color: #f88; width:25em;">';
-		foreach ( $messages as $key => $msg ) {
-			echo '<li>'.$msg.'</li>';
-		}
-		echo '</ol>';
-	}
-}
-?>
-
-<?php if (isset($result)){ ?>
-<div style="margin-top: 1em; padding: 1em; border-radius: 0.5em; background-color: #ff0; width:25em;">
-<?php echo 'Wynik: '.$result; ?>
-</div>
-<?php } ?>
-
+      if (isset($result)) {
+          echo '<div class="alert alert-success mt-3">Wynik: '.$result.'</div>';
+      }
+      ?>
+    </div>
+  </div>
 </div>
 
 </body>

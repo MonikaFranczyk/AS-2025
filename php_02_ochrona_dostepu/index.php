@@ -1,8 +1,12 @@
 <?php
 require_once dirname(__FILE__).'/config.php';
+include _ROOT_PATH.'/app/security/check.php';
 
 //przekierowanie przeglądarki klienta (redirect)
 //header("Location: "._APP_URL."/app/calc.php");
 
 //przekazanie żądania do następnego dokumentu ("forward")
-include _ROOT_PATH.'/app/calc.php';
+//include _ROOT_PATH.'/app/calc.php';
+
+header("Location: "._APP_URL."/app/menu.php");
+exit();
