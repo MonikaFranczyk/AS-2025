@@ -1,74 +1,58 @@
 <?php
-// KONTROLER strony kalkulatora
+$admin_only = false;
 require_once dirname(__FILE__).'/../config.php';
+include _ROOT_PATH.'/app/security/check.php';
 
-// 1. pobranie parametrów (bez błędów jeśli nie istnieją)
-$x = $_REQUEST['x'] ?? null;
-$y = $_REQUEST['y'] ?? null;
-$operation = $_REQUEST['op'] ?? null;
+function getParamsCalc(&$x, &$y, &$operation) {
+    $x = $_REQUEST['x'] ?? null;
+    $y = $_REQUEST['y'] ?? null;
+    $operation = $_REQUEST['op'] ?? null;
+}
 
-// zainicjuj zmienne widoku
-$messages = [];
-$result = null;
+function validateCalc($x, $y, $operation, &$messages) {
 
-// 2. WALIDACJA — wykonujemy ją tylko gdy formularz został wysłany (metodą POST)
-//    Dzięki temu przy pierwszym wejściu na stronę nie będą pokazywane błędy "brak wartości".
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if ($_SERVER['REQUEST_METHOD'] !== 'POST') return false; 
 
-    // sprawdzenie, czy parametry zostały przekazane
-    if (!isset($x, $y, $operation)) {
-        $messages[] = 'Błędne wywołanie aplikacji. Brak jednego z parametrów.';
-    } else {
-        // sprawdzenie, czy potrzebne wartości zostały przekazane (niepuste)
-        if ($x === '') {
-            $messages[] = 'Nie podano liczby 1';
-        }
-        if ($y === '') {
-            $messages[] = 'Nie podano liczby 2';
-        }
+    if ($x === '') $messages[] = 'Nie podano liczby 1';
+    if ($y === '') $messages[] = 'Nie podano liczby 2';
 
-        // dalsza walidacja tylko gdy brak powyższych błędów
-        if (empty($messages)) {
-            if (!is_numeric($x)) {
-                $messages[] = 'Pierwsza wartość nie jest liczbą';
+    if (!empty($messages)) return false;
+
+    if (!is_numeric($x)) $messages[] = 'Pierwsza wartość nie jest liczbą';
+    if (!is_numeric($y)) $messages[] = 'Druga wartość nie jest liczbą';
+
+    return empty($messages);
+}
+
+function processCalc($x, $y, $operation, &$messages) {
+    $x = floatval($x);
+    $y = floatval($y);
+
+    switch ($operation) {
+        case 'minus': return $x - $y;
+        case 'times': return $x * $y;
+        case 'div':
+            if ($y == 0) {
+                $messages[] = 'Nie wolno dzielić przez zero!';
+                return null;
             }
-            if (!is_numeric($y)) {
-                $messages[] = 'Druga wartość nie jest liczbą';
-            }
-        }
-    }
-
-    // 3. wykonaj zadanie jeśli wszystko w porządku
-    if (empty($messages)) {
-        // konwersja parametrów na liczby
-        // używam floatval aby obsłużyć liczby zmiennoprzecinkowe
-        $x = floatval($x);
-        $y = floatval($y);
-
-        // wykonanie operacji
-        switch ($operation) {
-            case 'minus':
-                $result = $x - $y;
-                break;
-            case 'times':
-                $result = $x * $y;
-                break;
-            case 'div':
-                if ($y == 0) {
-                    $messages[] = 'Nie wolno dzielić przez zero!';
-                } else {
-                    $result = $x / $y;
-                }
-                break;
-            case 'plus':
-            default:
-                $result = $x + $y;
-                break;
-        }
+            return $x / $y;
+        case 'plus':
+        default:
+            return $x + $y;
     }
 }
 
-// 4. Wywołanie widoku z przekazaniem zmiennych
-// - zainicjowane zmienne ($messages,$x,$y,$operation,$result)
-//   będą dostępne w dołączonym skrypcie
+// --- GŁÓWNY PRZEPŁYW KONTROLERA ---
+
+$messages = [];
+$x = $y = $operation = null;
+$result = null;
+
+getParamsCalc($x, $y, $operation);
+
+if (validateCalc($x, $y, $operation, $messages)) {
+    $result = processCalc($x, $y, $operation, $messages);
+}
+
 include 'calc_view.php';

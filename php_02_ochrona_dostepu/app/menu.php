@@ -24,9 +24,19 @@ include _ROOT_PATH.'/app/security/check.php';
 
 <div class="container mt-5 text-center">
   <h2>Witaj w systemie kalkulatorów!</h2>
-  <p>Wybierz rodzaj kalkulatora:</p>
-  <a href="<?php print(_APP_URL); ?>/app/calc.php" class="btn btn-primary m-2">Zwykły kalkulator</a>
-  <a href="<?php print(_APP_URL); ?>/app/kredyt.php" class="btn btn-success m-2">Kalkulator kredytowy</a>
+  <p>Wybierz opcję:</p>
+
+  <a href="<?php print(_APP_URL); ?>/app/calc.php" 
+     class="btn btn-primary m-2">Zwykły kalkulator</a>
+
+  <?php if ($_SESSION['role'] == 'admin'): ?>
+
+      <a href="<?php print(_APP_URL); ?>/app/kredyt.php" 
+         class="btn btn-success m-2">Kalkulator kredytowy</a>
+
+      <a href="<?php print(_APP_URL); ?>/app/admin.php" 
+         class="btn btn-danger m-2">Panel administratora</a>
+  <?php endif; ?>
 </div>
 
 </body>

@@ -12,4 +12,10 @@ if ( empty($role) ){
 	//zatrzymaj dalsze przetwarzanie skryptów
 	exit();
 }
+
+// JEŚLI STRONA WYMAGA ADMINA:
+if (($admin_only ?? false) && $role !== 'admin') {
+    echo "<h2 style='color:red; text-align:center; margin-top:40px;'>Brak uprawnień!</h2>";
+    exit();
+}
 //jeśli ok to idź dalej
