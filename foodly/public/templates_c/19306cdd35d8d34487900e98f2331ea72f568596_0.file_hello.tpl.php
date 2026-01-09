@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.4.5, created on 2026-01-09 08:02:41
-  from 'file:Hello.tpl' */
+/* Smarty version 5.4.5, created on 2026-01-08 16:51:25
+  from 'file:hello.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.4.5',
-  'unifunc' => 'content_6960a8116ff217_45579978',
+  'unifunc' => 'content_695fd27dbb3b04_52835589',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
-    'd2787426307cfb637c732d6c60a1ae5d2c29ab00' => 
+    '19306cdd35d8d34487900e98f2331ea72f568596' => 
     array (
-      0 => 'Hello.tpl',
-      1 => 1767942073,
+      0 => 'hello.tpl',
+      1 => 1767887340,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   array (
   ),
 ))) {
-function content_6960a8116ff217_45579978 (\Smarty\Template $_smarty_tpl) {
+function content_695fd27dbb3b04_52835589 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\xampp\\htdocs\\foodly\\app\\views';
 $_smarty_tpl->getInheritance()->init($_smarty_tpl, false);
 ?>
@@ -48,12 +48,7 @@ main_klient">Panel klienta</a>
 main_dostawca">Panel dostawcy</a>
     <?php }?>
 
-    <?php if ($_smarty_tpl->getValue('isWorker')) {?>
-        <a href="<?php echo $_smarty_tpl->getValue('conf')->action_url;?>
-main_pracownik">Panel restauracji</a>
-    <?php }?>
-
-    <?php if ($_smarty_tpl->getValue('isAdmin') || $_smarty_tpl->getValue('isClient') || $_smarty_tpl->getValue('isCourier') || $_smarty_tpl->getValue('isWorker')) {?>
+    <?php if ($_smarty_tpl->getValue('isAdmin') || $_smarty_tpl->getValue('isClient') || $_smarty_tpl->getValue('isCourier')) {?>
         <a href="<?php echo $_smarty_tpl->getValue('conf')->action_url;?>
 logout">Wyloguj</a>
     <?php }?>
@@ -62,14 +57,14 @@ logout">Wyloguj</a>
 <hr>
 
 <?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_12121227496960a8116f8323_67609584', 'content');
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_1526245050695fd27dbaff97_34410055', 'content');
 ?>
 
 
 </body>
 </html><?php }
 /* {block 'content'} */
-class Block_12121227496960a8116f8323_67609584 extends \Smarty\Runtime\Block
+class Block_1526245050695fd27dbaff97_34410055 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\xampp\\htdocs\\foodly\\app\\views';

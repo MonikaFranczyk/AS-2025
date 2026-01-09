@@ -5,13 +5,14 @@ $conf->debug = true; # set true during development and use in your code (for ins
 $conf->server_name = 'localhost:8080';   # server address and port
 $conf->protocol = 'http';           # http or https
 $conf->app_root = '/foodly/public';   # project subfolder in domain (relative to main domain)
+$conf->clean_urls = true;
 
 # ---- Database config - values required by Medoo
 $conf->db_type = 'mysql';
 $conf->db_server = 'localhost';
 $conf->db_name = 'foodly';
-$conf->db_user = 'mysql';
-$conf->db_pass = 'mysql';
+$conf->db_user = 'root';
+$conf->db_pass = '';
 $conf->db_charset = 'utf8';
 
 # ---- Database config - optional values

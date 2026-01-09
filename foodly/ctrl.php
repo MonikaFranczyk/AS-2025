@@ -1,8 +1,13 @@
 <?php
 require_once 'init.php';
-
 require_once 'routing.php';
 
-\core\SessionUtils::loadMessages();
+use core\App;
+use core\ParamUtils;
+use core\SessionUtils;
 
-\core\App::getRouter()->go();
+$action = ParamUtils::getFromRequest(App::getConf()->action_param, false);
+
+SessionUtils::loadMessages();
+App::getRouter()->setAction($action);
+App::getRouter()->go();
