@@ -6,18 +6,16 @@ use core\Utils;
 App::getRouter()->setDefaultRoute('main'); #default action
 App::getRouter()->setLoginRoute('accessdenied'); #action to forward if no permissions
 
-//DODAĆ STRONĘ DO WYŚWIETLENIA GDY BRAK DOSTĘPU
+//accesdenied
+Utils::addRoute('accessdenied', 'AccessDeniedCtrl');
 
+//main
 Utils::addRoute('main', 'MainCtrl');
-//Utils::addRoute('action_name', 'controller_class_name');
 
 //auth
 Utils::addRoute('login', 'AuthCtrl');
 Utils::addRoute('logout', 'AuthCtrl');
-//Utils::addRoute('register', 'AuthCtrl');
-
-//accesdenied
-Utils::addRoute('accessdenied', 'AccessDeniedCtrl');
+Utils::addRoute('register', 'AuthCtrl');
 
 //admin
 Utils::addRoute('main_admin', 'AdminCtrl', ['ADMIN']);
@@ -34,6 +32,9 @@ Utils::addRoute('main_admin', 'AdminCtrl', ['ADMIN']);
 
 //restaurant employee
 Utils::addRoute('main_pracownik', 'PracownikRestauracjiCtrl',['PRACOWNIK_RESTAURACJI']);
+Utils::addRoute('orders_restaurant', 'RestaurantOrderCtrl', ['PRACOWNIK_RESTAURACJI']);
+Utils::addRoute('order_accept', 'RestaurantOrderCtrl', ['PRACOWNIK_RESTAURACJI']);
+Utils::addRoute('order_cancel', 'RestaurantOrderCtrl', ['PRACOWNIK_RESTAURACJI']);
 //Utils::addRoute('restaurant_menu', 'RestaurantMenuCtrl', ["ADMIN","PRACOWNIK_RESTAURACJI"]);
 //Utils::addRoute('restaurant_menu_add', 'RestaurantMenuCtrl', ["ADMIN","PRACOWNIK_RESTAURACJI"]);
 //Utils::addRoute('restaurant_menu_edit', 'RestaurantMenuCtrl', ["ADMIN","PRACOWNIK_RESTAURACJI"]);
@@ -58,16 +59,18 @@ Utils::addRoute('main_dostawca', 'DostawcaCtrl', ['DOSTAWCA']);
 
 //client
 Utils::addRoute('main_klient', 'KlientCtrl', ['KLIENT']);
-//Utils::addRoute('restaurants', 'ClientBrowseCtrl', ["ADMIN","DOSTAWCA","PRACOWNIK_RESTAURACJI","KLIENT"]);
-//Utils::addRoute('restaurant_view', 'ClientBrowseCtrl', ["ADMIN","DOSTAWCA","PRACOWNIK_RESTAURACJI","KLIENT"]);
-//Utils::addRoute('restaurant_menu_view', 'ClientBrowseCtrl', ["ADMIN","DOSTAWCA","PRACOWNIK_RESTAURACJI","KLIENT"]);
-//Utils::addRoute('cart', 'CartCtrl', ["KLIENT"]);
-//Utils::addRoute('cart_add_item', 'CartCtrl', ["KLIENT"]);
-//Utils::addRoute('cart_update_item', 'CartCtrl', ["KLIENT"]);
-//Utils::addRoute('cart_remove_item', 'CartCtrl', ["KLIENT"]);
-//Utils::addRoute('order_checkout', 'OrderCtrl', ["KLIENT"]);
-//Utils::addRoute('orders', 'OrderCtrl', ["ADMIN","KLIENT"]);
-//Utils::addRoute('order_view', 'OrderCtrl', ["ADMIN","KLIENT"]);
+Utils::addRoute('restauracje', 'KlientCtrl', ['KLIENT']);
+Utils::addRoute('restauracja_menu', 'KlientCtrl', ['KLIENT']);
+Utils::addRoute('cart', 'CartCtrl', ["KLIENT"]);
+Utils::addRoute('cart_add_item', 'CartCtrl', ["KLIENT"]);
+Utils::addRoute('cart_update_item', 'CartCtrl', ["KLIENT"]);
+Utils::addRoute('cart_remove_item', 'CartCtrl', ["KLIENT"]);
+Utils::addRoute('cart_submit', 'CartCtrl', ["KLIENT"]);
+Utils::addRoute('checkout', 'CartCtrl', ["KLIENT"]);
+Utils::addRoute('checkout_submit', 'CartCtrl', ["KLIENT"]);
+Utils::addRoute('moje_zamowienia', 'OrderCtrl', ['KLIENT']);
+Utils::addRoute('order_pay', 'OrderCtrl', ['KLIENT']);
+
 //Utils::addRoute('profile', 'ProfileCtrl', ["ADMIN","KLIENT"]);
 //Utils::addRoute('profile_edit', 'ProfileCtrl', ["ADMIN","KLIENT"]);
 //Utils::addRoute('profile_orders', 'ProfileCtrl', ["ADMIN","KLIENT"]);

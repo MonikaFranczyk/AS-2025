@@ -8,9 +8,6 @@ use core\RoleUtils;
 class AccessDeniedCtrl extends BaseCtrl {
 
     public function action_accessdenied() {
-
-        $this->prepareLayout();
-        App::getSmarty()->assign('pageTitle', 'Brak uprawnień');
         
         $backAction = 'main';
 

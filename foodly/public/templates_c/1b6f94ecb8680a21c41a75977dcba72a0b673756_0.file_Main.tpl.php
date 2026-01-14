@@ -1,11 +1,11 @@
 <?php
-/* Smarty version 5.4.5, created on 2026-01-09 08:34:34
+/* Smarty version 5.4.5, created on 2026-01-13 17:29:16
   from 'file:Main.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.4.5',
-  'unifunc' => 'content_6960af8ab1b871_41456154',
+  'unifunc' => 'content_696672dc4624c2_57533212',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
@@ -20,18 +20,18 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   array (
   ),
 ))) {
-function content_6960af8ab1b871_41456154 (\Smarty\Template $_smarty_tpl) {
+function content_696672dc4624c2_57533212 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\xampp\\htdocs\\foodly\\app\\views';
 $_smarty_tpl->getInheritance()->init($_smarty_tpl, true);
 ?>
 
 
 <?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_960978736960af8ab12a07_72485252', 'content');
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_431906744696672dc458f16_01919238', 'content');
 $_smarty_tpl->getInheritance()->endChild($_smarty_tpl, "layouts/layout.tpl", $_smarty_current_dir);
 }
 /* {block 'content'} */
-class Block_960978736960af8ab12a07_72485252 extends \Smarty\Runtime\Block
+class Block_431906744696672dc458f16_01919238 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\xampp\\htdocs\\foodly\\app\\views';

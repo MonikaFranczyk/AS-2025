@@ -29,3 +29,21 @@ function rel_url($params, $smarty)
 
 #assign variables
 #\core\App::getSmarty()->assign('variable',$variable);
+\core\App::getSmarty()->assign('conf', \core\App::getConf());
+\core\App::getSmarty()->assign('messages', \core\App::getMessages());
+
+$mainRoute = 'main';
+
+if (!empty(\core\App::getConf()->roles)) {
+    if (\core\RoleUtils::inRole('ADMIN')) {
+        $mainRoute = 'main_admin';
+    } elseif (\core\RoleUtils::inRole('PRACOWNIK_RESTAURACJI')) {
+        $mainRoute = 'main_pracownik';
+    } elseif (\core\RoleUtils::inRole('DOSTAWCA')) {
+        $mainRoute = 'main_dostawca';
+    } elseif (\core\RoleUtils::inRole('KLIENT')) {
+        $mainRoute = 'main_klient';
+    }
+}
+
+\core\App::getSmarty()->assign('mainRoute', $mainRoute);
