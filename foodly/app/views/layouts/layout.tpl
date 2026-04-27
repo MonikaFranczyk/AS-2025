@@ -66,6 +66,7 @@
             border-radius: 4px;
             margin-left: 10px;
         }
+
 .menu-table {
     width: 100%;
     border-collapse: collapse;
@@ -325,6 +326,26 @@
             margin: 0;
             padding-left: 20px;
         }
+
+        .pagination {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center; /* WYŚRODKOWANIE */
+    align-items: center;
+    gap: 10px;
+}
+
+.pagination a {
+    padding: 6px 12px;
+    border: 1px solid #ccc;
+    text-decoration: none;
+    border-radius: 6px;
+}
+
+.pagination span {
+    font-weight: 500;
+}
+
     </style>
 </head>
 

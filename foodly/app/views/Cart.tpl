@@ -27,7 +27,7 @@
 
             <td class="col-qty">
                 <a class="qty-btn"
-                   href="{$conf->action_url}cart_update_item&id={$id}&qty={$item.qty-1}">
+                   href="{$conf->action_url}cart_update_item&id={$id}&qty={$item.qty-1}&page={$currentPage}">
                     −
                 </a>
 
@@ -36,7 +36,7 @@
                 </span>
 
                 <a class="qty-btn"
-                   href="{$conf->action_url}cart_update_item&id={$id}&qty={$item.qty+1}">
+                   href="{$conf->action_url}cart_update_item&id={$id}&qty={$item.qty+1}&page={$currentPage}">
                     +
                 </a>
             </td>
@@ -51,7 +51,7 @@
 
             <td class="col-remove">
                 <a class="remove-btn"
-                   href="{$conf->action_url}cart_remove_item&id={$id}">
+                   href="{$conf->action_url}cart_remove_item&id={$id}&page={$currentPage}"
                     🗑
                 </a>
             </td>
@@ -64,6 +64,45 @@
     <strong>Kwota całkowita:</strong>
     {$order.KWOTA_CALKOWITA|default:0} zł
 </div>
+
+{if $totalPages > 1}
+
+<div class="pagination" style="margin-top:20px;">
+
+{if $totalPages > 1}
+
+<div class="pagination" style="margin-top:20px;">
+
+    {if $currentPage > 1}
+        <a href="{$conf->action_url}cart&page={$currentPage-1}"
+           style="padding:6px 12px;
+                  border:1px solid #ccc;
+                  margin-right:5px;
+                  text-decoration:none;">
+            ⬅ Poprzednia
+        </a>
+    {/if}
+
+    <span style="margin-right:10px;">
+        Strona {$currentPage} z {$totalPages}
+    </span>
+
+    {if $currentPage < $totalPages}
+        <a href="{$conf->action_url}cart&page={$currentPage+1}"
+           style="padding:6px 12px;
+                  border:1px solid #ccc;
+                  text-decoration:none;">
+            Następna ➡
+        </a>
+    {/if}
+
+</div>
+
+{/if}
+
+</div>
+
+{/if}
 
 <form method="post" action="{$conf->action_url}cart_submit">
     <button class="btn-submit" type="submit">

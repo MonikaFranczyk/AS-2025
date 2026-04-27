@@ -82,8 +82,8 @@ class CartCtrl extends BaseCtrl {
         return $total;
     }
 
-    //koszyk
-    public function action_cart() {
+    //koszyk - wersja pierwotna
+    /*public function action_cart() {
 
         $this->prepareLayout();
 
@@ -93,7 +93,44 @@ class CartCtrl extends BaseCtrl {
         App::getSmarty()->assign('order', $order);
         App::getSmarty()->assign('items', $items);
         App::getSmarty()->display('Cart.tpl');
+    }*/
+
+    public function action_cart() {
+
+    $this->prepareLayout();
+
+    $order = $this->getActiveCart();
+    $items = $order ? json_decode($order['MENU_ITEM_LISTA'], true) ?? [] : [];
+
+    //PAGINACJA
+    $page = ParamUtils::getFromGet('page');
+
+    if ($page == null || $page < 1) {
+        $page = 1;
     }
+
+    $limit = 5; //limit elementów na stronie
+
+    $totalItems = count($items);
+
+    $totalPages = max(1, ceil($totalItems / $limit));
+
+    if ($page > $totalPages) {
+        $page = $totalPages;
+    }
+
+    $offset = ($page - 1) * $limit;
+
+    $pagedItems = array_slice($items, $offset, $limit, true);
+
+    App::getSmarty()->assign('order', $order);
+    App::getSmarty()->assign('items', $pagedItems);
+
+    App::getSmarty()->assign('currentPage', $page);
+    App::getSmarty()->assign('totalPages', $totalPages);
+
+    App::getSmarty()->display('Cart.tpl');
+}
 
     //dodanie elementu do koszyka
     public function action_cart_add_item() {
@@ -149,6 +186,7 @@ class CartCtrl extends BaseCtrl {
 
         $itemId = ParamUtils::getFromRequest('id', true);
         $qty    = ParamUtils::getFromRequest('qty', true);
+        $page = ParamUtils::getFromRequest('page', false);
 
         $order = $this->getActiveCart();
         if (!$order) return App::getRouter()->redirectTo('cart');
@@ -170,12 +208,18 @@ class CartCtrl extends BaseCtrl {
             ["ID_ZAMOWIENIA" => $order['ID_ZAMOWIENIA']]
         );
 
-        App::getRouter()->redirectTo('cart');
+        //po aktualizacji elementów przekierowuje na stronę na której się aktualnie znjduje
+        if ($page) {
+            App::getRouter()->redirectTo('cart&page=' . $page);
+        } else {
+            App::getRouter()->redirectTo('cart');
+        }
     }
 
     public function action_cart_remove_item() {
 
         $itemId = ParamUtils::getFromRequest('id', true);
+        $page   = ParamUtils::getFromRequest('page', false);    
 
         $order = $this->getActiveCart();
         if (!$order) return App::getRouter()->redirectTo('cart');
@@ -192,7 +236,12 @@ class CartCtrl extends BaseCtrl {
             ["ID_ZAMOWIENIA" => $order['ID_ZAMOWIENIA']]
         );
 
-        App::getRouter()->redirectTo('cart');
+        //po usunięciu elementu przekierowuje na stronę na której się aktualnie znjduje
+        if ($page) {
+            App::getRouter()->redirectTo('cart&page=' . $page); 
+        } else {
+            App::getRouter()->redirectTo('cart');
+        }
     }
 
     public function action_cart_submit() {
