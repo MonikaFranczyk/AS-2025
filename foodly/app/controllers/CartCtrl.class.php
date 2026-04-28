@@ -82,54 +82,63 @@ class CartCtrl extends BaseCtrl {
         return $total;
     }
 
-    //koszyk - wersja pierwotna
-    /*public function action_cart() {
-
-        $this->prepareLayout();
-
-        $order = $this->getActiveCart();
-        $items = $order ? json_decode($order['MENU_ITEM_LISTA'], true) ?? [] : [];
-
-        App::getSmarty()->assign('order', $order);
-        App::getSmarty()->assign('items', $items);
-        App::getSmarty()->display('Cart.tpl');
-    }*/
-
-    public function action_cart() {
+public function action_cart() {
 
     $this->prepareLayout();
 
     $order = $this->getActiveCart();
-    $items = $order ? json_decode($order['MENU_ITEM_LISTA'], true) ?? [] : [];
+    $items = $order
+        ? json_decode($order['MENU_ITEM_LISTA'], true) ?? []
+        : [];
 
-    //PAGINACJA
+    // PAGINACJA
     $page = ParamUtils::getFromGet('page');
 
     if ($page == null || $page < 1) {
         $page = 1;
     }
 
-    $limit = 5; //limit elementów na stronie
-
+    $limit = 5;
     $totalItems = count($items);
-
     $totalPages = max(1, ceil($totalItems / $limit));
 
     if ($page > $totalPages) {
-        $page = $totalPages;
+        App::getRouter()->redirectTo(
+            'cart&page=' . $totalPages
+        );
+        return;
     }
 
     $offset = ($page - 1) * $limit;
 
-    $pagedItems = array_slice($items, $offset, $limit, true);
+    // pobranie elementów
 
-    App::getSmarty()->assign('order', $order);
-    App::getSmarty()->assign('items', $pagedItems);
+    $pagedItems = array_slice($items,$offset,$limit,true);
 
-    App::getSmarty()->assign('currentPage', $page);
-    App::getSmarty()->assign('totalPages', $totalPages);
+    // przekazanie do widoku
+    App::getSmarty()->assign(
+        'order',
+        $order
+    );
 
-    App::getSmarty()->display('Cart.tpl');
+    App::getSmarty()->assign(
+        'items',
+        $pagedItems
+    );
+
+    App::getSmarty()->assign(
+        'currentPage',
+        $page
+    );
+
+    App::getSmarty()->assign(
+        'totalPages',
+        $totalPages
+    );
+
+    App::getSmarty()->display(
+        'Cart.tpl'
+    );
 }
 
     //dodanie elementu do koszyka
@@ -182,6 +191,7 @@ class CartCtrl extends BaseCtrl {
         App::getRouter()->redirectTo('restauracja_menu&id='.$restaurantId);
     }
 
+    //update elementów w koszyku
     public function action_cart_update_item() {
 
         $itemId = ParamUtils::getFromRequest('id', true);
@@ -278,6 +288,109 @@ class CartCtrl extends BaseCtrl {
         App::getSmarty()->assign('deliveryCost', 10);
         App::getSmarty()->display('Checkout.tpl');
     }
+
+// AJAX funkcje
+// AJAX update elementów w koszyku
+public function action_cart_update_item_ajax() {
+
+    header('Content-Type: application/json');
+
+    try {
+
+        $itemId = ParamUtils::getFromRequest('id', true);
+        $qty    = ParamUtils::getFromRequest('qty', true);
+
+        $order = $this->getActiveCart();
+
+        if (!$order) {
+            echo json_encode(["success" => false]);
+            exit;
+        }
+
+        $items = json_decode($order['MENU_ITEM_LISTA'], true) ?? [];
+
+        if ($qty <= 0) {
+            unset($items[$itemId]);
+        }
+        elseif (isset($items[$itemId])) {
+            $items[$itemId]['qty'] = $qty;
+        }
+
+        $total = $this->recalcTotal($items);
+
+        App::getDB()->update(
+            "ZAMOWIENIE",
+            [
+                "MENU_ITEM_LISTA" => json_encode($items),
+                "KWOTA_CALKOWITA" => $total
+            ],
+            ["ID_ZAMOWIENIA" => $order['ID_ZAMOWIENIA']]
+        );
+
+        echo json_encode([
+            "success" => true,
+            "total" => $total
+        ]);
+
+    }
+    catch (\Exception $e) {
+
+        echo json_encode([
+            "success" => false,
+            "error" => $e->getMessage()
+        ]);
+
+    }
+
+    exit;
+}
+
+// AJAX usuwanie elementów z koszyka
+public function action_cart_remove_item_ajax() {
+
+    header('Content-Type: application/json');
+
+    try {
+
+        $itemId = ParamUtils::getFromRequest('id', true);
+        $order = $this->getActiveCart();
+
+        if (!$order) {
+            echo json_encode(["success" => false]);
+            exit;
+        }
+
+        $items = json_decode($order['MENU_ITEM_LISTA'], true) ?? [];
+
+        unset($items[$itemId]);
+
+        $total = $this->recalcTotal($items);
+
+        App::getDB()->update(
+            "ZAMOWIENIE",
+            [
+                "MENU_ITEM_LISTA" => json_encode($items),
+                "KWOTA_CALKOWITA" => $total
+            ],
+            ["ID_ZAMOWIENIA" => $order['ID_ZAMOWIENIA']]
+        );
+
+        echo json_encode([
+            "success" => true,
+            "total" => $total
+        ]);
+
+    }
+    catch (\Exception $e) {
+
+        echo json_encode([
+            "success" => false,
+            "error" => $e->getMessage()
+        ]);
+    }
+
+    exit;
+}
 
 public function action_checkout_submit() {
 

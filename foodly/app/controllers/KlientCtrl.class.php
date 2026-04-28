@@ -72,4 +72,5 @@ class KlientCtrl extends BaseCtrl {
         App::getSmarty()->assign('menu', $menuGrouped);
         App::getSmarty()->display('MenuRestauracji.tpl');
     }
+
 }

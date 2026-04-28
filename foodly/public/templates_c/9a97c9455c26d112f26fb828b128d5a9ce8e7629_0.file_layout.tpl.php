@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.4.5, created on 2026-04-27 15:22:51
+/* Smarty version 5.4.5, created on 2026-04-27 15:45:35
   from 'file:layouts/layout.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.4.5',
-  'unifunc' => 'content_69ef632b5294e6_06589663',
+  'unifunc' => 'content_69ef687f3aac89_27140729',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '9a97c9455c26d112f26fb828b128d5a9ce8e7629' => 
     array (
       0 => 'layouts/layout.tpl',
-      1 => 1777296167,
+      1 => 1777296310,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   array (
   ),
 ))) {
-function content_69ef632b5294e6_06589663 (\Smarty\Template $_smarty_tpl) {
+function content_69ef687f3aac89_27140729 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\xampp\\htdocs\\foodly\\app\\views\\layouts';
 $_smarty_tpl->getInheritance()->init($_smarty_tpl, false);
 ?>
@@ -437,9 +437,9 @@ logout">
             <ul>
                 <?php
 $_from = $_smarty_tpl->getSmarty()->getRuntime('Foreach')->init($_smarty_tpl, $_smarty_tpl->getValue('messages')->getMessages(), 'msg');
-$foreach1DoElse = true;
+$foreach0DoElse = true;
 foreach ($_from ?? [] as $_smarty_tpl->getVariable('msg')->value) {
-$foreach1DoElse = false;
+$foreach0DoElse = false;
 ?>
                     <?php if ($_smarty_tpl->getValue('msg')->isError()) {?>
                         <li><?php echo $_smarty_tpl->getValue('msg')->text;?>
@@ -457,9 +457,9 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
             <ul>
                 <?php
 $_from = $_smarty_tpl->getSmarty()->getRuntime('Foreach')->init($_smarty_tpl, $_smarty_tpl->getValue('messages')->getMessages(), 'msg');
-$foreach2DoElse = true;
+$foreach1DoElse = true;
 foreach ($_from ?? [] as $_smarty_tpl->getVariable('msg')->value) {
-$foreach2DoElse = false;
+$foreach1DoElse = false;
 ?>
                     <?php if ($_smarty_tpl->getValue('msg')->isInfo()) {?>
                         <li><?php echo $_smarty_tpl->getValue('msg')->text;?>
@@ -474,7 +474,7 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
 
     <div class="container">
     <?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_96659325669ef632b528679_78949650', 'content');
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_96981508069ef687f3a9724_56302642', 'content');
 ?>
 
 </div>
@@ -484,7 +484,7 @@ $_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_96659325669ef
 </body>
 </html><?php }
 /* {block 'content'} */
-class Block_96659325669ef632b528679_78949650 extends \Smarty\Runtime\Block
+class Block_96981508069ef687f3a9724_56302642 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\xampp\\htdocs\\foodly\\app\\views\\layouts';
